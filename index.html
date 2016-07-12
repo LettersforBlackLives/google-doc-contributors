@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Doc Contributors</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+
+      <div class="row">
+        <h3 data-bind="text: userMsg">Loading JS...</h3>
+
+        <div class="col-sm-12" data-bind="visible: needAuth" style="display: none">
+          <p>Authorize access to Google Drive</p>
+          <button class="btn btn-primary" data-bind="click: handleAuthClick">Authorize</button>
+        </div>
+      </div>
+
+      <div class="row" data-bind="visible: authed" style="display: none">
+        <div class="col-sm-4" data-bind="visible: files">
+
+          <h3>Choose a Google Drive file</h3>
+
+          <ul class="files" data-bind="foreach: files">
+            <li>
+              <a data-bind="text: name, click: $root.onFileChoose">
+              </a>
+            </li>
+          </ul>
+
+          <nav>
+            <ul class="pager">
+              <li class="previous" data-bind="visible: currentPageToken">
+                <a data-bind="click: handlePrevFiles"><span aria-hidden="true">&larr;</span></a>
+              </li>
+
+              <li class="next" data-bind="visible: nextPageToken">
+                <a  data-bind="click: handleNextFiles"><span aria-hidden="true">&rarr;</span></a>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
+
+        <div class="col-sm-8" data-bind="visible: file">
+          <h3 data-bind="text: file"></h3>
+
+          <p data-bind="text: fileMsg"></p>
+
+          <div data-bind="visible: !fileMsg()">
+            This file has <span data-bind="text: revisors().length">?</span> revisors.
+          </div>
+
+          <ol data-bind="foreach: revisors">
+            <li>
+              <span data-bind="text: email"></span> made
+              <span data-bind="text: count"></span> revisions
+            </li>
+          </ol>
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <script src="index.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=onGoogleAPILoad"></script>
+  </body>
+</html>
