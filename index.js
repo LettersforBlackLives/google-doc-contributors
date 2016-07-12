@@ -29,7 +29,23 @@ function VM() {
 
   this.file = ko.observable('');
   this.fileMsg = ko.observable('');
+
   this.revisors = ko.observableArray();
+  this.revisorsCSV = ko.computed(function () {
+    var csv = '#email,revision_count\n';
+    var revisors = this.revisors();
+
+
+    for (var i=0; i < revisors.length; i++) {
+      var row = (
+          '' + revisors[i].email +
+          ',' + revisors[i].count +
+          (i < revisors.length - 1 ? '\n' : ''));
+      csv = csv + row;
+    }
+
+    return csv;
+  }.bind(this));
 
   this.init = function () {
     // Check for user having just opened the file

@@ -61,6 +61,11 @@
             </li>
           </ol>
         </div>
+
+        <div class="col-sm-8" data-bind="visible: revisors().length > 0">
+          <p>as a csv:</p>
+          <pre data-bind="text: revisorsCSV"></pre>
+        </div>
       </div>
 
     </div> <!-- /container -->
