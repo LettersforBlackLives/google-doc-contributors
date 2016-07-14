@@ -24,12 +24,11 @@
 
           <h3>Choose a Google Drive file</h3>
 
-          <ul class="files" data-bind="foreach: files">
-            <li>
-              <a data-bind="text: name, click: $root.onFileChoose">
-              </a>
-            </li>
-          </ul>
+          <div class="list-group" data-bind="foreach: files">
+            <button
+              data-bind="text: name, click: $root.onFileChoose, css: {'list-group-item-info': name === $root.file()}"
+              type="button" class="list-group-item"></button>
+          </div>
 
           <nav>
             <ul class="pager">
@@ -46,25 +45,34 @@
         </div>
 
         <div class="col-sm-8" data-bind="visible: file">
-          <h3 data-bind="text: file"></h3>
+          <h3>Revisors & Commenters</h3>
 
           <p data-bind="text: fileMsg"></p>
 
           <div data-bind="visible: !fileMsg()">
-            This file has <span data-bind="text: revisors().length">?</span> revisors.
+            This file has <span data-bind="text: revisors().length">?</span> revisors:
           </div>
-
           <ol data-bind="foreach: revisors">
             <li>
-              <span data-bind="text: email"></span> made
+              <span data-bind="text: email || name"></span> made
               <span data-bind="text: count"></span> revisions
+            </li>
+          </ol>
+
+          <div data-bind="visible: !fileMsg()">
+            and <span data-bind="text: commenters().length">?</span> commenters:
+          </div>
+          <ol data-bind="foreach: commenters">
+            <li>
+              <span data-bind="text: email || name"></span> wrote
+              <span data-bind="text: count"></span> comments
             </li>
           </ol>
         </div>
 
         <div class="col-sm-8" data-bind="visible: revisors().length > 0">
           <p>as a csv:</p>
-          <pre data-bind="text: revisorsCSV"></pre>
+          <pre data-bind="text: csv"></pre>
         </div>
       </div>
 
