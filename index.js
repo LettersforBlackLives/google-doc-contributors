@@ -196,6 +196,11 @@ function VM() {
       fileId: file.id,
       fields: 'revisions(id,lastModifyingUser)',
     }).execute(function (reply) {
+      // User might have already switched files, so double check
+      if (file.name != this.file()) {
+        return
+      }
+
       console.log('Revisions reply:', reply);
       if (!reply || reply.code || !reply.revisions) {
         this.fileMsg('Failed to get info about file: ' + reply.message);
@@ -235,6 +240,11 @@ function VM() {
   }.bind(this);
 
   this.getCommenters = function (file, pageToken, commentersSoFar) {
+    // User might have already switched files, so double check
+    if (file.name != this.file()) {
+      return
+    }
+
     // On first call, clear old commenters
     if (!pageToken) {
       this.commenters.removeAll();
@@ -251,6 +261,11 @@ function VM() {
       pageSize: 100,
       pageToken: pageToken,
     }).execute(function (reply) {
+      // User might have already switched files, so double check
+      if (file.name != this.file()) {
+        return
+      }
+
       console.log('Comments reply:', reply);
       if (!reply || reply.code || !reply.comments) {
         this.fileMsg('Failed to get comments for file: ' + reply.message);
